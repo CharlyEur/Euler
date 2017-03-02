@@ -7,6 +7,69 @@ namespace Euler.Core
     public class PrimeGames
     {
         private PrimalityProvider Source { get; set; }
+		private PhiComputer PhiHelper { get; set; }
+
+		public static long FindBiggestDecimalUnder(int upperLimit)
+		{
+			var primeService = new PrimalityProvider(upperLimit);
+			var phiComputer = new PhiComputer { Source = primeService };
+			phiComputer.PopulatePhiValues();
+
+			var engine = new PrimeGames { Source = primeService, PhiHelper = phiComputer };
+
+			return engine.ComputePeriodicity(upperLimit);
+		}
+
+		internal long ComputePeriodicity(int upperLimit)
+		{
+			long max = 0;
+			long maxOrder = 0;
+
+			for (int i = upperLimit - 1; i >= 0; i--)
+			{
+				if (PhiHelper.PhiValues[i] >= maxOrder)
+				{
+					var candidate = RemoveFactors(i, 10);
+					var order = FindOrder(candidate, 10);
+
+					if (order > maxOrder)
+					{
+						max = candidate;
+						maxOrder = order;
+					}
+				}
+			}
+
+			return max;
+		}
+
+		private long FindOrder(long n, long unit)
+		{
+			var tester = unit % n;
+			var counter = 0;
+
+			while(tester != 1)
+			{
+				tester = (unit * tester) % n;
+				counter++;
+			}
+
+			return counter;
+		}
+
+		internal long RemoveFactors(long candidate, long toRemove)
+		{
+			var factors = Source.Decompose(candidate);
+			var toElimate = Source.Decompose(toRemove);
+
+			foreach (var primeItem in toElimate)
+			{
+				if (factors.ContainsKey(primeItem.Key))
+					factors[primeItem.Key] = factors[primeItem.Key] % primeItem.Value;
+			}
+
+			return Source.Recompose(factors);
+		}
 
         public static long FindContraGoldbach()
         {
@@ -60,6 +123,36 @@ namespace Euler.Core
             }
 
             return cache.Count-1;
+        }
+
+        public static IEnumerable<long> FindPrimeFactors(long input)
+        {
+            var player = new PrimalityProvider((int) Math.Sqrt(input));
+
+            return player.Decompose(input).Keys;
+        }
+
+        public static long FindNthPrime(int idx)
+        {
+            int tenthPower = 3;
+
+            var provider = new PrimalityProvider(10);
+
+            while(provider.Count < idx)
+            { 
+                int upperBound = (int) Math.Pow(10, tenthPower);
+                provider = new PrimalityProvider(upperBound);
+                tenthPower += 2;
+            }
+
+            return provider[idx-1]; // -> 1 is not in this prime set
+        }
+
+        internal static long SumPrimesUnder(int upperBound)
+        {
+            var gamer = new PrimeGames { Source = new PrimalityProvider(upperBound) };
+
+            return gamer.Source.Sum();
         }
 
         public static long FindDistinctFourSequence()

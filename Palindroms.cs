@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 
@@ -17,6 +18,22 @@ namespace Euler.Core
             }
 
             return sum;
+        }
+
+        public static IEnumerable<long> FindMax(int limit)
+        {
+            int lowerBound = Math.Max(limit - 100, 0);
+
+            for (int a = limit - 1; a > lowerBound; a--)
+            {
+                for (int b = a; b < limit; b++)
+                {
+                    var productDecomposition = Decomposition.Decompose(a * b);
+
+                    if (IsPalindrom(productDecomposition))
+                        yield return Decomposition.Recompose(productDecomposition, 10);
+                }
+            }            
         }
 
         internal static long CountLychrelAbove(int limit)

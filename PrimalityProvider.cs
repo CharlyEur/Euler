@@ -12,8 +12,8 @@ namespace Euler.Core
 
         private long[] primeSet { get; set; }
         private bool[] crible;
-
-        public PrimalityProvider(int maxSize)
+		
+		public PrimalityProvider(int maxSize)
         {
             MaxSize = maxSize;
 
@@ -131,8 +131,47 @@ namespace Euler.Core
         {
             return primeSet.GetEnumerator();
         }
+		
+		internal List<long> BuildDivisors(long toTest)
+		{
+			var factors = Decompose(toTest);
 
-        internal Dictionary<long, long> Decompose(long candidate)
+			var factorStack = new Stack<Tuple<long, long>>(
+					factors.Select(x => new Tuple<long,long>(x.Key, x.Value)));
+
+			var result = ParseDivisors(factorStack).ToList();
+
+			return result;
+		}
+
+		internal IEnumerable<long> ParseDivisors(Stack<Tuple<long,long>> factors)
+		{
+			if (factors.Count == 0)
+				yield return 1;
+			else
+			{
+				var monom = factors.Pop();
+				var currentDivisors = ParseMonom(monom.Item1, monom.Item2);
+
+				var remainingDivisors = ParseDivisors(factors);
+
+				foreach (var factor in remainingDivisors)
+				{
+					foreach (var item in currentDivisors)
+					{
+						yield return factor * item;
+					}
+				}
+			}
+		}
+
+		private IEnumerable<long> ParseMonom(long key, long value)
+		{
+			for (int i = 0; i <= value; i++)
+				yield return (long)Math.Pow(key, i);
+		}
+
+		internal Dictionary<long, long> Decompose(long candidate)
         {
             var result = new Dictionary<long, long>();
 

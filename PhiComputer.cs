@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Euler.Core
 {
@@ -32,6 +30,37 @@ namespace Euler.Core
                 if (factor.Item3 != 1)
                     PhiValues[i] *= PhiValues[factor.Item3];
             }
+        }
+
+        /// <summary>
+        /// Implements divisors count. DivisorCount(Product(pi^ki)) = Product(ki+1) as
+        /// you have ki + 1 choices for each factor.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public long CountDivisors(long input)
+        {
+            var decomposition = Source.Decompose(input);
+
+            long result = decomposition
+                            .Select(x => x.Value + 1)
+                            .Aggregate((long) 1, (x, y) => x * y);
+            return result;
+        }
+
+        /// <summary>
+        /// Implements arithmetic phi formula. Phi(Product(pi^ki)) = Product((pi-1)*pi^(ki-1))
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public long CountLocalPhi(long input)
+        {
+            var decomposition = Source.Decompose(input);
+
+            long result = decomposition
+                            .Select(x => (x.Key - 1) * ((long)Math.Pow(x.Key, x.Value - 1)))
+                            .Aggregate((long)1, (x, y) => x * y);
+            return result;
         }
     }
 }

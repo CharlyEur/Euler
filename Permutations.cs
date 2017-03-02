@@ -1,11 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Euler.Core
 {
     internal class Permutations
     {
+		internal static long GetNth( int count, int rank )
+		{
+			var toConvert = BuildIndexPermutations(count)
+								.Select(w => new PermutationItem(w))
+								.ToList();
+
+			toConvert.Sort();
+
+			var nth = toConvert[rank-1];
+
+			return (long)Decomposition.Recompose(nth.Permutation.Select(x => (short)x).ToList());
+		}
+
         internal static IEnumerable<int[]> BuildIndexPermutations(int listCount)
         {
             if (listCount == 0)
@@ -90,4 +104,44 @@ namespace Euler.Core
             return result;
         }
     }
+
+	internal class PermutationItem : IComparable<PermutationItem>
+	{
+		public int[] Permutation { get; private set;}
+
+		public PermutationItem( int[] permutation )
+		{
+			Permutation = permutation;
+		}
+
+		public int CompareTo(PermutationItem other)
+		{
+			if (other.Permutation.Length != Permutation.Length)
+				return Permutation.Length.CompareTo(other.Permutation.Length);
+
+			for (int i = 0; i < Permutation.Length; i++)
+			{
+				var item = Permutation[i];
+				var otherItem = other.Permutation[i];
+
+				if (item != otherItem)
+					return item.CompareTo(otherItem);
+			}
+
+			return 0;
+		}
+
+		public override string ToString()
+		{
+			var builder = new StringBuilder();
+
+			builder.Append("P: ");
+			builder.AppendFormat("{0}", Permutation[0]);
+
+			for (int i = 1; i < Permutation.Length; i++)
+				builder.AppendFormat("-{0}",Permutation[i]);
+
+			return builder.ToString();
+		}
+	}
 }

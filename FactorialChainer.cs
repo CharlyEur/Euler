@@ -43,11 +43,14 @@ namespace Euler.Core
         {
             int length = chain.Count;
             int guiltyIdx = chain.IndexOf(guiltyMember);
+            int loopLength = length - guiltyIdx;
+            int freePathLength = guiltyIdx;
 
-            for (int i = 0; i < chain.Count; i++)
-            {
+            for (int i = 0; i < guiltyIdx; i++)
+                chainLengthCache.Add(chain[i], (freePathLength - i) + loopLength); // freePath - i = count between i and entering the loop
 
-            }
+            for (int i = guiltyIdx; i < length; i++)
+                chainLengthCache.Add(chain[i], loopLength);
 
             return chain.Count;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace Euler.Core
 {
@@ -37,5 +38,30 @@ namespace Euler.Core
             for (int i = 0; i < collection.Length; i++)
                 collection[i] = value;
         }
+
+        public static BigInteger SumBig(this IEnumerable<BigInteger> collection)
+        {
+            BigInteger buffer = 0;
+
+            foreach (var item in collection)
+                buffer += item;
+
+            return buffer;
+        }
+
+		/// <summary>
+		/// Careful ! Deep Copy only for value types !
+		/// </summary>
+		/// <param name="toCopy"></param>
+		/// <returns></returns>
+		public static List<T> DeepCopy<T>(this List<T> toCopy)
+		{
+			var result = new List<T>();
+
+			foreach (var item in toCopy)
+				result.Add(item);
+
+			return result;
+		}
     }
 }

@@ -41,10 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbundantHandler.cs" />
+    <Compile Include="Amicability.cs" />
+    <Compile Include="BigNumbersReader.cs" />
     <Compile Include="Binomials.cs" />
+    <Compile Include="CollatzHandler.cs" />
     <Compile Include="ConcatenatedProduct.cs" />
     <Compile Include="Continuous Fractions\Fraction.cs" />
     <Compile Include="Continuous Fractions\FractionFactory.cs" />
+    <Compile Include="DayHandler.cs" />
     <Compile Include="Decomposition.cs" />
     <Compile Include="Decryptor.cs" />
     <Compile Include="DigitReader.cs" />
@@ -54,10 +59,14 @@
     <Compile Include="Gaussian Crible\GaussianCribleBuilder.cs" />
     <Compile Include="Gaussian Crible\GaussianIntegers.cs" />
     <Compile Include="GeometricNumberProvider.cs" />
+    <Compile Include="LargeNumberHandler.cs" />
+    <Compile Include="NameScoreReader.cs" />
     <Compile Include="NGonRing.cs" />
+    <Compile Include="NumberGridder.cs" />
+    <Compile Include="NumberWriter.cs" />
     <Compile Include="Palindroms.cs" />
     <Compile Include="Pandigitals.cs" />
-    <Compile Include="PathEngine.cs" />
+    <Compile Include="Gaussian Crible\PathEngine.cs" />
     <Compile Include="Permutations.cs" />
     <Compile Include="PhiComputer.cs" />
     <Compile Include="Poker.cs" />
@@ -69,9 +78,12 @@
     <Compile Include="Continuous Fractions\ContinuousFractionFactory.cs" />
     <Compile Include="Continuous Fractions\ContinuousFractionHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpecialLongNumber.cs" />
     <Compile Include="Toolkit.cs" />
+    <Compile Include="TriangleHelper.cs" />
     <Compile Include="Truncatables.cs" />
     <Compile Include="UsefullExtensions.cs" />
+    <Compile Include="Utilities.cs" />
     <Compile Include="Words.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

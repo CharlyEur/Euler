@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Euler.Core
 {
@@ -16,7 +14,32 @@ namespace Euler.Core
 
         public long StandardValue { get; private set; }
 
+        private static SortedDictionary<char, short> _digits;
+
+        static Decomposition()
+        {
+            _digits = new SortedDictionary<char, short>();
+
+            _digits.Add('0', 0);
+            _digits.Add('1', 1);
+            _digits.Add('2', 2);
+            _digits.Add('3', 3);
+            _digits.Add('4', 4);
+            _digits.Add('5', 5);
+            _digits.Add('6', 6);
+            _digits.Add('7', 7);
+            _digits.Add('8', 8);
+            _digits.Add('9', 9);
+            _digits.Add('A', 10);
+            _digits.Add('B', 11);
+            _digits.Add('C', 12);
+            _digits.Add('D', 13);
+            _digits.Add('E', 14);
+            _digits.Add('F', 15);
+        }
+
         private Decomposition() { }
+
 
         public static Decomposition Create(long stdWriting, int numericalBase)
         {
@@ -98,7 +121,7 @@ namespace Euler.Core
             return value;
         }
 
-        internal static List<short> Decompose(BigInteger value)
+        internal static List<short> DecomposeRaw(BigInteger value)
         {
             var digits = new List<short>();
 
@@ -122,6 +145,38 @@ namespace Euler.Core
 
             return digits;
         }
+
+        internal static List<short> Decompose(int value)
+        {
+            var digits = new List<short>();
+
+            if (value < 10)
+            {
+                digits.Add((short)value);
+                return digits;
+            }
+
+            var readNumber = value.ToString();
+
+            return readNumber.Select(x => _digits[x]).ToList();
+        }
+
+        internal static List<short> Decompose(BigInteger value)
+        {
+            var digits = new List<short>();
+
+            if (value < 10)
+            {
+                digits.Add((short)value);
+                return digits;
+            }
+
+            var readNumber = value.ToString();
+
+            return readNumber.Select(x => _digits[x]).ToList();
+        }
+
+
 
         internal static Dictionary<short, int> SearchingDecomposition(long candidate, int numericalBase)
         {

@@ -16,8 +16,11 @@ namespace Euler.Core
         }
         
         public PrimalityProvider Provider { get; set; }
-
-
+        
+        public long ComputeCnk(long n, long k)
+        {
+            return Provider.Recompose(ComputeCnkFactors(n, k));
+        }
 
         public Dictionary<long, long> ComputeCnkFactors(long n, long k)
         {
