@@ -1,0 +1,8 @@
+packages/
+
+[Oo]bj/
+[Bb]in/
+[Ll]og/
+
+[Dd]ebug/
+[Rr]elease/
