@@ -1,11 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 
 namespace Euler.Algebra.UnitTests
 {
-	[TestClass]
+	[TestFixture]
 	public class MatrixTest
 	{
-		[TestMethod]
+		[Test]
 		public void Matrix_Product_Test()
 		{
 			var A = new MatrixN(new int[,] { { 1, 0 }, { 0, 1 } });
