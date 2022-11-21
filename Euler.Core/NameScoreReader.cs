@@ -6,7 +6,7 @@ namespace Euler.Core
 {
 	class NameScoreReader
 	{
-		private const string _Names_Path = @"..\Euler.Core\p022_names.txt";
+		private const string _Names_Path = @"..\..\..\..\p022_names.txt";
 
 		public static long FindHighestScore()
 		{
